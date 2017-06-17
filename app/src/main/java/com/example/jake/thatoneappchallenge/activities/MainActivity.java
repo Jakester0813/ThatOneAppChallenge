@@ -1,5 +1,6 @@
 package com.example.jake.thatoneappchallenge.activities;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -15,6 +16,8 @@ import com.example.jake.thatoneappchallenge.parsers.DataResponseParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -27,24 +30,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        guides = getGuides();
+        getGuides();
 
     }
 
-    private List<Guide> getGuides(){
-        final List<Guide>[] resultGuides = null;
+
+
+    private void getGuides(){
         String url = "https://guidebook.com/service/v2/upcomingGuides/";
+
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            resultGuides[0] = DataResponseParser.getInstance().parseResponse(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        JSONObject responseOne = response;
+                        System.out.println("BOIND");
                     }
                 }, new Response.ErrorListener() {
 
@@ -57,6 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsObjRequest);
 
-        return resultGuides[0];
+
     }
 }
