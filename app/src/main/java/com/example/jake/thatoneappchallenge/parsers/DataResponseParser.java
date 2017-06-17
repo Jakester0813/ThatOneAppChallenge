@@ -32,7 +32,7 @@ final public class DataResponseParser {
         Guide guide;
         List<Guide> guideArray;
 
-        dataArray = new JSONArray(result.getJSONArray("data"));
+        dataArray = result.getJSONArray("data");
         guideArray = new ArrayList<Guide>();
         for (int i = 0; i < dataArray.length(); i++){
             guideArray.add(parseGuide(dataArray.getJSONObject(i)));
@@ -50,9 +50,9 @@ final public class DataResponseParser {
         endDate = object.getString("endDate");
         url = object.getString("url");
         venueObject = object.getJSONObject("venue");
-        photoUrl = object.getString("photo");
-        city = venueObject.getString("city");
-        state = venueObject.getString("state");
+        city = venueObject.optString("city", "No");
+        state = venueObject.optString("state", "Venue");
+        photoUrl = object.getString("icon");
         venue = new Venue(city, state);
 
         return new Guide(name, startDate,  endDate, url, photoUrl, venue);
